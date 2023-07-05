@@ -58,6 +58,26 @@ struct volts {
   using dimension = electric_potential_dimension;
   using ratio = std::ratio<1>;
 };
+
+template <typename Ratio>
+struct make<electric_potential_dimension, Ratio> {
+  using type = scalr::electric_potential_unit<Ratio>;
+};
+
+template <>
+struct make<electric_potential_dimension, std::micro> {
+  using type = microvolts;
+};
+
+template <>
+struct make<electric_potential_dimension, std::milli> {
+  using type = millivolts;
+};
+
+template <>
+struct make<electric_potential_dimension, std::ratio<1>> {
+  using type = volts;
+};
 }  // namespace unit
 
 using microvolts = electric_potential<double, std::micro>;

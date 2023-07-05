@@ -73,6 +73,11 @@ struct millihertz {
   using ratio = std::milli;
 };
 
+struct revs_per_minute {
+    using dimension = frequency_dimension;
+    using ratio = std::ratio<1, 60>;
+};
+
 template <typename Ratio>
 struct make<frequency_dimension, Ratio> {
   using type = scalr::frequency_unit<Ratio>;
@@ -108,6 +113,10 @@ struct make<frequency_dimension, std::milli> {
   using type = millihertz;
 };
 
+template<>
+struct make<frequency_dimension, std::ratio<1, 60>> {
+    using type = revs_per_minute;
+};
 }  // namespace unit
 
 // Helper aliases
@@ -117,6 +126,7 @@ using megahertz = frequency<double, std::mega>;
 using kilohertz = frequency<double, std::kilo>;
 using hertz = frequency<double>;
 using millihertz = frequency<double, std::milli>;
+using revs_per_minute = frequency<double, std::ratio<1, 60>>;
 
 namespace literals {
 
@@ -154,6 +164,10 @@ constexpr hertz operator""_Hz(unsigned long long value) { return hertz{value}; }
 
 constexpr millihertz operator""_mHz(unsigned long long value) {
   return millihertz{value};
+}
+
+constexpr revs_per_minute operator""_RPM(unsigned long long value) {
+    return revs_per_minute{value};
 }
 }  // namespace literals
 

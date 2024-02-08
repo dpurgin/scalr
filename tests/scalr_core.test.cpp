@@ -236,6 +236,8 @@ TEST_CASE("Named Quantities") {
     CHECK(0.5_l + 250_ml == 0.75_l);
   }
 
+  SECTION("Frequency") { CHECK(60_RPM == 1_Hz); }
+
   SECTION("Quantity Conversion") {
     scalr::seconds secs{12};
     scalr::minutes mins{4};

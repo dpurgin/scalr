@@ -49,6 +49,11 @@ struct meters_per_second {
   using ratio = std::ratio<1>;
 };
 
+struct millimeters_per_second {
+  using dimension = speed_dimension;
+  using ratio = std::milli;
+};
+
 struct kilometers_per_hour {
   using dimension = speed_dimension;
   using ratio = std::ratio<5, 18>;
@@ -70,6 +75,11 @@ struct make<speed_dimension, std::ratio<1>> {
 };
 
 template <>
+struct make<speed_dimension, std::milli> {
+  using type = millimeters_per_second;
+};
+
+template <>
 struct make<speed_dimension, std::ratio<5, 18>> {
   using type = kilometers_per_hour;
 };
@@ -82,6 +92,7 @@ struct make<speed_dimension, std::ratio<1397, 3125>> {
 }  // namespace unit
 
 using meters_per_second = speed<double, std::ratio<1>>;
+using millimeters_per_second = speed<double, std::ratio<1, 1000>>;
 using kilometers_per_hour = speed<double, std::ratio<5, 18>>;
 using miles_per_hour = speed<double, std::ratio<1397, 3125>>;
 
@@ -96,6 +107,9 @@ constexpr miles_per_hour operator""_mph(long double value) {
 constexpr meters_per_second operator""_mps(long double value) {
   return meters_per_second{value};
 }
+constexpr millimeters_per_second operator""_mmps(long double value) {
+  return millimeters_per_second{value};
+}
 
 constexpr kilometers_per_hour operator""_kph(unsigned long long value) {
   return kilometers_per_hour{value};
@@ -105,6 +119,9 @@ constexpr miles_per_hour operator""_mph(unsigned long long value) {
 }
 constexpr meters_per_second operator""_mps(unsigned long long value) {
   return meters_per_second{value};
+}
+constexpr millimeters_per_second operator""_mmps(unsigned long long value) {
+  return millimeters_per_second{value};
 }
 
 }  // namespace literals
